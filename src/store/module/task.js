@@ -7,6 +7,9 @@ const state = {
 }
 
 const getters = {
+  getTasksByProgram: (state) => (programId) => {
+    return state.tasks.filter(task => task.programId === programId)
+  },
   getUndoneTasks: (state) => (programId) => {
     return state.tasks.filter(task => task.programId === programId && task.status === 'undone').length
   },
@@ -16,8 +19,8 @@ const getters = {
 }
 
 const actions = {
-  getAllTasks ({commit}) {
-    taskApi.getAllTasks(tasks => {
+  async getAllTasks ({commit}) {
+    taskApi.getTasks(tasks => {
       commit(types.RECEIVE_TASK, tasks)
     })
   },
