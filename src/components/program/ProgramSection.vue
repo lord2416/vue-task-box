@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ProgramItem from './ProgramItem.vue'
 export default {
   components: {
@@ -38,8 +38,15 @@ export default {
       'allFinishItem'
     ])
   },
-  created () {
-    this.$store.dispatch('getAllPrograms')
+  methods: {
+    ...mapActions([
+      'getAllPrograms',
+      'getAllTasks'
+    ])
+  },
+  mounted () {
+    this.getAllPrograms()
+    this.getAllTasks()
   }
 }
 </script>

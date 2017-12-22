@@ -19,18 +19,18 @@ const getters = {
 }
 
 const actions = {
-  async getAllTasks ({commit}) {
+  getAllTasks ({commit}) {
     taskApi.getTasks(tasks => {
-      commit(types.RECEIVE_TASK, tasks)
+      console.log(tasks)
+      commit(types.RECEIVE_TASK, {tasks})
     })
   },
-  updateTaskStatus (store, {taskId, programId, status = 'done'}) {
-    store.commit(types.TASK_UPDATE_REQUEST, {taskId, status})
+  updateTaskStatus ({commit, getters}, {taskId, programId, status = 'done'}) {
+    commit(types.TASK_UPDATE_REQUEST, {taskId: taskId, status: status})
     if (getters.getUndoneTasks(programId) === 0) {
-      updateProgramStatus(store, programId, 'finished')
-    }
-    if (getters.getDoneTasks(programId) === 0) {
-      updateProgramStatus(store, programId, 'pending')
+      updateProgramStatus({commit}, programId, 'finished')
+    } else {
+      updateProgramStatus({commit}, programId, 'pending')
     }
   }
 }
@@ -40,7 +40,7 @@ const mutations = {
     state.tasks = tasks
   },
   [types.TASK_UPDATE_REQUEST] (state, {taskId, status}) {
-    state.tasks.find(task => task.taskId === taskId).status = status
+    state.tasks.find(task => task.id === taskId).status = status
   }
 }
 

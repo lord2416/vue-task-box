@@ -1,4 +1,6 @@
-import Home from '@/components/Home'
+// import Home from '@/components/Home'
+
+const Home = () => import('@/components/Home')
 
 export default [
   {
